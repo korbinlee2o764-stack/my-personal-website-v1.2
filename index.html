@@ -1,0 +1,920 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>敬鲟的数字空间</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            font-size: 1.8em;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero-section h1 {
+            font-size: 3em;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons a {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 5px;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+
+        .cta-buttons a:hover {
+            background-color: #0056b3;
+        }
+        .cta-buttons a.secondary {
+            background-color: #6c757d;
+        }
+        .cta-buttons a.secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* Full-page Flex Carousel Section */
+        .full-width-flex-carousel-section {
+            padding: 0; /* Remove padding to allow full width */
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .flex-carousel-container {
+            position: relative;
+            width: 100%; /* Take full width */
+            overflow: hidden;
+        }
+
+        /* Updated style for the integrated portfolio title */
+        #portfolio-section-title {
+            position: absolute;
+            top: 80px; /* Adjusted position, give more space from top */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10; /* Ensure it's above other elements */
+            font-size: 2.2em; /* Smaller font size */
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.9); /* White text with higher transparency */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Slightly reduced shadow */
+            /* Removed background-color, border-radius, and padding */
+            pointer-events: none; /* Allow clicks through to carousel elements */
+        }
+
+
+        .flex-carousel {
+            display: flex;
+            overflow-x: scroll; /* Enable horizontal scrolling */
+            scroll-snap-type: x mandatory; /* Snap to items */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+            -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+        }
+
+        .flex-carousel::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari, Opera */
+        }
+
+        .flex-carousel-item {
+            flex: 0 0 100vw; /* Each item takes full viewport width */
+            width: 100vw; /* Ensure it truly takes full width */
+            scroll-snap-align: start;
+            background-color: #f9f9f9;
+            border-radius: 0; /* No border-radius for full-width items */
+            box-shadow: none; /* No shadow */
+            overflow: hidden;
+            text-align: left;
+            position: relative;
+            min-height: 60vh; /* Adjust height for full-page feel, using viewport height */
+            margin-right: 0; /* No margin between items */
+            display: flex; /* Flexbox for internal content alignment */
+            align-items: center; /* Center content vertically */
+            justify-content: center; /* Center content horizontally */
+            flex-direction: column; /* Stack image and info */
+            color: white; /* Default text color for overlay */
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        .carousel-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .flex-carousel-item .carousel-info {
+            position: absolute; /* Position info over image */
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); /* Gradient overlay */
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 1; /* Ensure info is above image */
+        }
+        .flex-carousel-item .carousel-info h3,
+        .flex-carousel-item .carousel-info p {
+            color: white; /* Ensure text is white */
+        }
+
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            pointer-events: none; /* Allow clicks through to content */
+            padding: 0 20px; /* Add padding for buttons */
+            box-sizing: border-box;
+            z-index: 10; /* Ensure buttons are above info overlay */
+        }
+
+        .carousel-nav button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 1.5em;
+            pointer-events: all; /* Make buttons clickable */
+            transition: background-color 0.3s ease;
+        }
+
+        .carousel-nav button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .carousel-page-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            z-index: 10;
+        }
+
+
+        /* Knowledge Base Section */
+        .knowledge-section {
+            padding: 60px 0;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+
+        .knowledge-section h2 {
+            font-size: 2.2em;
+            margin-bottom: 40px;
+            color: #222;
+        }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .article-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .article-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .article-card-content {
+            padding: 20px;
+        }
+
+        .article-card-content h3 {
+            font-size: 1.3em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .article-card-content p {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .article-card-content .status {
+            font-size: 0.8em;
+            color: #999;
+            display: flex;
+            align-items: center;
+        }
+        .article-card-content .status i {
+            margin-right: 5px;
+        }
+        .view-all-button {
+            margin-top: 40px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 60px 0;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            color: #222;
+        }
+
+        .contact-section p {
+            font-size: 1.1em;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            color: #555;
+        }
+
+        .contact-info ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            gap: 25px; /* Spacing between contact items */
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            font-size: 1.1em;
+            color: #555;
+            flex-basis: 300px; /* Base width for contact item to allow wrapping */
+            justify-content: center; /* Center content in item */
+        }
+
+        .contact-info li i {
+            font-size: 1.5em;
+            color: #007bff;
+            margin-right: 10px;
+            min-width: 30px; /* Ensure icon doesn't shrink too much */
+            text-align: center;
+        }
+
+        /* Resume Section */
+        .resume-section {
+            padding: 60px 0;
+            background-color: #f8f8f8;
+        }
+
+        .resume-section h2 {
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 40px;
+            color: #222;
+        }
+
+        .resume-content-wrapper {
+            display: flex;
+            gap: 30px; /* Space between main and sidebar */
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+        }
+
+        .main-content {
+            flex: 3; /* Main content takes more space */
+        }
+
+        .sidebar {
+            flex: 1; /* Sidebar takes less space */
+            padding-left: 20px;
+            border-left: 1px solid #eee;
+            min-width: 280px; /* Ensure sidebar has minimum width */
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #007bff;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sidebar h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+
+        .personal-info ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+
+        .personal-info li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            color: #555;
+        }
+
+        .personal-info li i {
+            margin-right: 10px;
+            color: #007bff;
+            min-width: 20px;
+        }
+
+        .section-title {
+            font-size: 1.6em;
+            color: #222;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .skill-item {
+            background-color: #e9ecef;
+            border-radius: 4px;
+            padding: 8px 12px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #495057;
+        }
+
+        .education-item {
+            margin-bottom: 15px;
+        }
+
+        .education-item h4 {
+            margin: 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .education-item p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: #f8f8f8;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+            font-size: 0.9em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* ----- Responsive Design ----- */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 0 10px; /* Add some padding on smaller screens */
+            }
+            .navbar .logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            .nav-links {
+                display: none; /* Hidden by default for mobile */
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links li {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .menu-icon {
+                display: block;
+                position: absolute;
+                right: 20px;
+                top: 15px;
+            }
+
+            .hero-section h1 {
+                font-size: 2.2em;
+            }
+
+            .hero-section p {
+                font-size: 1em;
+            }
+
+            .cta-buttons a {
+                display: block;
+                margin: 10px auto;
+            }
+
+            /* Full-page carousel adjustment for mobile */
+            .flex-carousel-item {
+                min-height: 50vh; /* Adjust height for smaller screens */
+            }
+            .carousel-nav button {
+                font-size: 1.2em;
+                padding: 8px 12px;
+            }
+            .carousel-page-counter {
+                bottom: 15px;
+                padding: 4px 12px;
+                font-size: 0.8em;
+            }
+            /* Adjust integrated title for mobile */
+            #portfolio-section-title {
+                font-size: 1.8em; /* Smaller on mobile */
+                top: 50px; /* Adjust position */
+            }
+
+            /* Knowledge Base grid adjustment */
+            .article-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Contact info adjustment */
+            .contact-info ul {
+                flex-direction: column; /* Stack vertically */
+                align-items: flex-start; /* Align text to start */
+            }
+            .contact-info li {
+                flex-basis: auto; /* Remove fixed basis */
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            /* Resume section adjustment for mobile */
+            .resume-content-wrapper {
+                flex-direction: column; /* Stack main and sidebar vertically */
+                padding: 20px;
+                gap: 20px;
+            }
+
+            .sidebar {
+                padding-left: 0;
+                border-left: none;
+                border-top: 1px solid #eee; /* Add a separator */
+                padding-top: 20px;
+                min-width: unset; /* Remove min-width */
+            }
+
+            .profile-pic {
+                margin-bottom: 15px;
+            }
+
+            .sidebar h3, .personal-info li {
+                text-align: left; /* Align sidebar text left */
+            }
+            .personal-info li {
+                justify-content: flex-start;
+            }
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* More items per row if space allows */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 1.8em;
+            }
+            .hero-section p {
+                font-size: 0.9em;
+            }
+            .cta-buttons a {
+                padding: 10px 20px;
+            }
+            .section-title {
+                font-size: 1.4em;
+            }
+            .sidebar h3 {
+                font-size: 1.3em;
+            }
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+            }
+            #portfolio-section-title {
+                font-size: 1.3em; /* Even smaller on very small screens */
+                top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">敬鲟</a>
+                <div class="menu-icon" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#portfolio">作品集</a></li>
+                    <li><a href="#hero-section">关于我</a></li>
+                    <li><a href="#knowledge-section">知识文库</a></li>
+                    <li><a href="#connect">联系我</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 作品集/轮播图 (现在在最前面) -->
+    <section id="portfolio" class="full-width-flex-carousel-section">
+        <div class="flex-carousel-container">
+            <div id="portfolio-section-title">我的作品集</div> <!-- Integrated title -->
+
+            <div class="flex-carousel" id="flexCarousel">
+                <!-- Carousel Item 1 -->
+                <div class="flex-carousel-item">
+                    <div class="carousel-image">
+                        <img src="https://architizer.com/wp-content/uploads/2021/04/render-by-p-and-g-design.jpg" alt="作品1">
+                    </div>
+                    <div class="carousel-info">
+                        <h3>概念建筑设计</h3>
+                        <p>探索突破传统的前沿建筑艺术，融合未来主义与可持续设计。</p>
+                    </div>
+                </div>
+                <!-- Carousel Item 2 -->
+                <div class="flex-carousel-item">
+                    <div class="carousel-image">
+                        <img src="https://images.adsttc.com/media/images/500b/1a22/28ba/0d26/6000/1858/large_jpg/IMG_3990_edit.jpg?1414073992" alt="作品2">
+                    </div>
+                    <div class="carousel-info">
+                        <h3>结构主义建筑</h3>
+                        <p>解构与重组，以独特的几何形态展现建筑的内在力量。</p>
+                    </div>
+                </div>
+                <!-- Carousel Item 3 -->
+                <div class="flex-carousel-item">
+                    <div class="carousel-image">
+                        <img src="https://static.dezeen.com/uploads/2020/07/cities-of-the-future-architecture-technology_dezeen_2364_sq-1.jpg" alt="作品3">
+                    </div>
+                    <div class="carousel-info">
+                        <h3>未来城市景观</h3>
+                        <p>捕捉超现代都市的脉搏，展望人类居住空间的演变。</p>
+                    </div>
+                </div>
+                <!-- Carousel Item 4 -->
+                <div class="flex-carousel-item">
+                    <div class="carousel-image">
+                        <img src="https://cdna.artstation.com/p/assets/images/images/062/779/281/large/al-mohr-.jpg?1683939634" alt="作品4">
+                    </div>
+                    <div class="carousel-info">
+                        <h3>数字艺术</h3>
+                        <p>探索AI生成艺术与传统手绘结合的无限可能。</p>
+                    </div>
+                </div>
+                 <!-- Carousel Item 5 -->
+                 <div class="flex-carousel-item">
+                    <div class="carousel-image">
+                        <img src="https://cdn.luxatic.com/wp-content/uploads/2021/04/Night-City.jpg" alt="作品5">
+                    </div>
+                    <div class="carousel-info">
+                        <h3>城市夜景</h3>
+                        <p>捕捉都市的璀璨与寂静，光影交织的瞬间。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-nav">
+                <button onclick="scrollCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="scrollCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="carousel-page-counter" id="carouselPageCounter">
+                <!-- Page counter will be updated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section (现在在作品集之后) -->
+    <section id="hero-section" class="hero-section">
+        <div class="container">
+            <h1>欢迎来到敬鲟的数字空间</h1>
+            <p>在这里，数字与创意交织，算法与美学共舞。我探索科技的边界，用代码和光影构筑作品，呈现一个融合技术洞察与艺术表达的数字世界。</p>
+            <div class="cta-buttons">
+                <a href="#portfolio">查看作品集</a>
+                <a href="#connect" class="secondary">联系我</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 知识文库 -->
+    <section id="knowledge-section" class="knowledge-section">
+        <div class="container">
+            <h2>我的知识文库</h2>
+            <div class="article-grid">
+                <!-- Article Card 1 -->
+                <div class="article-card">
+                    <img src="https://via.placeholder.com/400x250/dddddd/333333?text=文章封面1" alt="文章1">
+                    <div class="article-card-content">
+                        <h3>技术随笔：前端框架的演进</h3>
+                        <p>探讨从jQuery到现代框架的发展历程及其实践经验。</p>
+                        <span class="status"><i class="fas fa-lock"></i> 已锁定</span>
+                    </div>
+                </div>
+                <!-- Article Card 2 -->
+                <div class="article-card">
+                    <img src="https://via.placeholder.com/400x250/cccccc/333333?text=文章封面2" alt="文章2">
+                    <div class="article-card-content">
+                        <h3>设计思考：响应式布局的挑战</h3>
+                        <p>总结响应式设计的挑战与解决方案。</p>
+                        <span class="status"><i class="fas fa-lock"></i> 已锁定</span>
+                    </div>
+                </div>
+                <!-- Article Card 3 -->
+                <div class="article-card">
+                    <img src="https://via.placeholder.com/400x250/bbbbbb/333333?text=文章封面3" alt="文章3">
+                    <div class="article-card-content">
+                        <h3>AI在Web开发中的应用</h3>
+                        <p>探讨人工智能如何赋能前端与后端开发。</p>
+                        <span class="status"><i class="fas fa-lock"></i> 已锁定</span>
+                    </div>
+                </div>
+            </div>
+            <div class="view-all-button">
+                <a href="#" class="cta-buttons a">查看所有知识</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我 -->
+    <section id="connect" class="contact-section">
+        <div class="container">
+            <h2>联系我</h2>
+            <p>对我的作品感兴趣？有项目合作意向？或者只是想打个招呼？欢迎随时通过以下方式与我联系！</p>
+            <div class="contact-info">
+                <ul>
+                    <li><i class="fas fa-envelope"></i> 邮箱: your.email@example.com</li>
+                    <li><i class="fas fa-phone"></i> 微信/手机: 138-XXXX-XXXX</li>
+                    <li><i class="fab fa-github"></i> GitHub: github.com/yourusername</li>
+                    <!-- LinkedIn removed -->
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 详细个人简历 -->
+    <section id="resume-section" class="resume-section">
+        <div class="container">
+            <h2>详细个人简历</h2>
+            <div class="resume-content-wrapper">
+                <div class="main-content">
+                    <h3 class="section-title">个人简介</h3>
+                    <p>我是一名充满激情的全栈开发者和交互设计师，拥有5年行业经验。 我擅长将复杂的技术概念转化为用户友好、视觉吸引力的产品。 我热衷于学习最新技术，并将其应用于解决实际问题，致力于打造高性能、高可用、可扩展的Web应用。 在职业生涯中，我主导和参与了多个大型项目的开发，积累了丰富的项目管理和团队协作经验。</p>
+
+                    <h3 class="section-title">核心技能</h3>
+                    <div class="skills-grid">
+                        <span class="skill-item">前端：React</span>
+                        <span class="skill-item">Vue</span>
+                        <span class="skill-item">JavaScript</span>
+                        <span class="skill-item">TypeScript</span>
+                        <span class="skill-item">Tailwind CSS</span>
+                        <span class="skill-item">后端：Node.js</span>
+                        <span class="skill-item">Python (Django/Flask)</span>
+                        <span class="skill-item">Go</span>
+                        <span class="skill-item">数据库：PostgreSQL</span>
+                        <span class="skill-item">MongoDB</span>
+                        <span class="skill-item">Redis</span>
+                        <span class="skill-item">云平台：AWS</span>
+                        <span class="skill-item">Azure</span>
+                        <span class="skill-item">Docker</span>
+                        <span class="skill-item">Kubernetes</span>
+                        <span class="skill-item">设计工具：Figma</span>
+                        <span class="skill-item">Sketch</span>
+                        <span class="skill-item">Adobe XD</span>
+                    </div>
+
+                    <h3 class="section-title">教育背景</h3>
+                    <div class="education-item">
+                        <h4>XXXX大学 - 计算机科学硕士 (2020)</h4>
+                        <p>主修：人工智能与数据科学</p>
+                    </div>
+                    <div class="education-item">
+                        <h4>XXXX学院 - 软件工程学士 (2018)</h4>
+                        <p>主修：软件开发与项目管理</p>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <img src="https://via.placeholder.com/120x120/dddddd/333333?text=头像" alt="敬鲟头像" class="profile-pic">
+                    <h3>敬鲟</h3>
+                    <div class="personal-info">
+                        <ul>
+                            <li><i class="fas fa-briefcase"></i> 职位：高级全栈工程师</li>
+                            <li><i class="fas fa-envelope"></i> 邮箱：your.email@example.com</li>
+                            <li><i class="fas fa-phone"></i> 手机：138-XXXX-XXXX</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 敬鲟. All rights reserved. 灵感来自科技与艺术的融合。</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu after clicking a link
+                const navLinks = document.getElementById('navLinks');
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Carousel functionality with page counter
+        const flexCarousel = document.getElementById('flexCarousel');
+        const carouselPageCounter = document.getElementById('carouselPageCounter');
+
+        function updateCarouselCounter() {
+            const totalItems = flexCarousel.children.length;
+            if (totalItems === 0) {
+                carouselPageCounter.textContent = '0 / 0';
+                return;
+            }
+
+            const itemWidth = flexCarousel.clientWidth; // Get the visible width of the carousel
+            let currentCarouselIndex = 0;
+            if (itemWidth > 0) {
+                // Determine current item based on scroll position and item width
+                currentCarouselIndex = Math.round(flexCarousel.scrollLeft / itemWidth);
+            }
+            // Ensure index is within bounds (0 to totalItems - 1)
+            currentCarouselIndex = Math.max(0, Math.min(currentCarouselIndex, totalItems - 1));
+
+            carouselPageCounter.textContent = `${currentCarouselIndex + 1} / ${totalItems}`;
+        }
+
+        function scrollCarousel(direction) {
+            const itemWidth = flexCarousel.clientWidth; // Scroll by the full width of one item
+            let newScrollLeft = flexCarousel.scrollLeft + (direction * itemWidth);
+
+            // Clamp scroll position to ensure it stays within bounds
+            newScrollLeft = Math.max(0, Math.min(newScrollLeft, flexCarousel.scrollWidth - itemWidth));
+
+            flexCarousel.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
+            // updateCarouselCounter will be triggered by the 'scroll' event listener
+        }
+
+        // Add event listener for scroll to update counter
+        flexCarousel.addEventListener('scroll', updateCarouselCounter);
+
+        // Initial update and update on window resize
+        window.addEventListener('load', updateCarouselCounter);
+        window.addEventListener('resize', updateCarouselCounter);
+
+        // Also call updateCarouselCounter immediately if carousel is visible
+        if (flexCarousel) {
+            updateCarouselCounter();
+        }
+    </script>
+</body>
+</html>
